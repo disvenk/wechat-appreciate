@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimal-ui">
+		<meta name="format-detection" content="telephone=no"/>
+		<title>赞赏</title>
+		<link href="//cdn.bootcss.com/weui/1.1.1/style/weui.css?v=122" rel="stylesheet">
+		<link href="assets/css/weui.css" rel="stylesheet">
+		<link href="//cdn.bootcss.com/Swiper/3.4.0/css/swiper.min.css" rel="stylesheet">
+		<link rel="stylesheet" href="assets/css/common.css?v=122" />
+		<script src="assets/js/util.js"></script>
+		<style type="text/css">
+			@media screen and (max-width: 410px) and (min-width: 370px){
+				html,body {
+					font-size: 15px;
+				}
+				.flex_item_tab {
+					width: 25%;
+					margin: 2px 10px 4px 0px;
+				}
+			}
+			@media screen and (min-width: 410px){
+				html,body {
+					font-size: 16px;
+				}
+			}
+			.BMap_cpyCtrl  {  
+		        display:none;   
+		    }  
+		    .anchorBL{  
+		        display:none;   
+		    } 
+		</style>
+	</head>
+	
+	<body id="app">
+		<div class="weui-tab">
+            <div class="weui-tab__panel" id="contentList">
+		      	<router-view></router-view>										
+            </div>
+            <div class="weui-tabbar" style="display: none;"> 
+            	<a v-link="{name: f.routerName}" class="weui-tabbar__item" v-for="f in typeList" @click="selectType(f)">
+            		<img src="assets/img/pinpaigushi_normal.png" alt="品牌故事" class="weui-tabbar__icon" v-if="choiceType != 1 && choiceType != f.selectMenuType && f.selectMenuType == 1">
+            		<img src="assets/img/zanshang_normal.png" alt="赞赏" class="weui-tabbar__icon" v-if="choiceType != 2 && choiceType != f.selectMenuType && f.selectMenuType == 2">
+            		<img src="assets/img/wode_normal.png" alt="我的" class="weui-tabbar__icon" v-if="choiceType != 3 && choiceType != f.selectMenuType && f.selectMenuType == 3">            		           		
+            		<img src="assets/img/pinpaigushi_Selected.png" alt="品牌故事" class="weui-tabbar__icon" v-if="choiceType == 1 && choiceType == f.selectMenuType">
+            		<img src="assets/img/zanshang_Selected.png" alt="赞赏" class="weui-tabbar__icon" v-if="choiceType == 2 && choiceType == f.selectMenuType">
+					<img src="assets/img/wode_Selected.png" alt="我的" class="weui-tabbar__icon" v-if="choiceType == 3 && choiceType == f.selectMenuType">
+	            	<p class="weui-tabbar__label" :class="{active:choiceType == f.selectMenuType}">{{f.name}}</p>
+	            </a>
+            </div>
+            <weui-dialog :show.sync="wMessage.show" :msg="wMessage.message" :type="wMessage.type"></weui-dialog>
+        </div>
+        
+        <template id="home-temp">
+        	<div class="full-height">
+        		<div class="stopIscroll">
+            		<div>
+            		<!--轮播图-->
+	                <div class="swiper-container banner">
+	                    <div class="swiper-wrapper">
+	                        <div class="swiper-slide" v-for="p in pictureList">
+	                        	<div class="banner" style="background:url({{p.pictureUrl}}) no-repeat;background-size: 100% 100%;width: 100%;"></div>
+	                        </div>
+	                    </div>
+	                </div>
+	                <!--店铺信息-->
+                    <div class="weui_cell" style="border-bottom: 1px solid #eee;">
+                    	<div class="weui_cell_hd">
+                            <img class="markImg" src="assets/img/shop.png" />
+                        </div>
+                        <div class="weui_cell_bd weui_cell_primary" style="margin-left: 5px;">
+                            <p>{{shop.name}}</p>
+                        </div>
+                    </div>
+                    <div class="weui_cell weui_cells_access" @click="openshoplocation" style="border-bottom: 1px solid #eee;">
+                        <div class="weui_cell_hd">
+                            <img class="markImg" src="assets/img/address.png" />
+                        </div>
+                        <div class="weui_cell_bd weui_cell_primary" style="margin-left: 5px;">
+                            <p>{{shop.address}}</p>
+                        </div>
+                        <div class="weui_cell_ft"></div>
+                    </div>
+                    <div class="weui_cell weui_cells_access" style="border-bottom: 1px solid #eee;">
+                        <img class="markImg" src="assets/img/clock.png" />
+                        <div class="weui_cell_bd weui_cell_primary" style="margin-left: 5px;">
+                        	<p>营业时间 : {{new Date(shop.openTime.time).format("hh:mm")}} - {{new Date(shop.closeTime.time).format("hh:mm")}}</p>
+                        </div>
+                    </div>
+                    <a class="weui_cell weui_cells_access" href="tel:{{shop.phone}}">
+                        <img class="markImg" src="assets/img/phone.png" />
+                        <div class="weui_cell_bd weui_cell_primary" style="margin-left: 5px;">
+                        	<p style="color: #000;">{{shop.phone}}</p>
+                        </div>
+                        <div class="weui_cell_ft"></div>
+                    </a>
+                	<!--店铺详情介绍-->
+					<div class="weui_cells_description" v-if="advert.description">
+						{{{advert.description}}}
+					</div>
+					<!--评论详情-->
+					<div class="weui_cell_comment">
+	                    <div class="weui_cell">
+	                        <div class="weui_cell_primary">
+	                            <p>全部评价</p>
+	                        </div>
+	                    </div>
+	                    <ul class="comment">
+	                    	<li class="appraise-item" v-for="f in appraiseList">
+	                    		<div class="reviewListInfoTitle" style="position: relative;">
+			                        <div class="avatar">
+			                        	<img v-if="f.headPhoto" :src="f.headPhoto" alt="用户头像" style="border-radius: 3px;">
+			                            <img v-if="!f.headPhoto" src="assets/img/restowechat.png" alt="用户头像" style="border-radius: 3px;">
+			                        </div>
+			                        <p class="customerHead">
+			                            <span v-if="f.nickName">{{f.nickName}}</span>
+			                            <span v-if="!f.nickName">匿名用户</span>
+			                            <span style="font-size: 12px;color: #999;">{{new Date(f.createTime.time).format("yyyy-MM-dd")}}</span>
+			                            <span style="float: right;color: #ff8832;font-size: 1.2rem;">{{f.allGrade}}分</span>
+			                        </p>
+			                        <p class="customerHead" style="font-size: 0.9rem;margin-top: 0.5rem;">{{f.content}}</p>
+			                        <p class="flex-tab">			                        	
+			                        	<span class="flex_item_tab" v-for="(index,a) in f.appraiseGrades" >
+			                        		<i v-for="j in textList" v-if="j.grade == a.grade && index == 0">服务{{j.word}}</i>	
+			                        		<i v-for="j in textList" v-if="j.grade == a.grade && index == 1">环境{{j.word}}</i>
+			                        		<i v-for="j in textList" v-if="j.grade == a.grade && index == 2">性价比{{j.word}}</i>
+			                        		<i v-for="j in textList" v-if="j.grade == a.grade && index == 3">氛围{{j.word}}</i>
+			                        		<i v-for="j in textList" v-if="j.grade == a.grade && index == 4">出品{{j.word}}</i>
+			                        	</span>
+			                        </p>
+			                        <div class="flex_container_img" v-if="f.appraiseSteps.length == 1" style="margin: 0.4rem 0.5rem 0 3.5rem;width: initial;flex-wrap: wrap;">	
+			                        	<span v-for="img in f.appraiseSteps" class="commentBigImg" style="background:url({{img.pictureUrl}}) no-repeat;background-size: 100% 100%;" v-if="img.pictureUrl">
+			                        		<p class="bgImg">
+			                        			<img class="zanOrCaiImg" v-if="img.status == 1" src="assets/img/btn_zan_selected.png" />
+			                        			<img class="zanOrCaiImg" v-if="img.status == 2" src="assets/img/btn_cai_selected.png" />
+			                        		</p>		                        		
+			                        	</span>
+			                        	<span v-for="img in f.appraiseSteps" class="commentBigImg" style="background:url(assets/img/restowechat.png) no-repeat;background-size: 100% 100%;" v-if="!img.pictureUrl">
+			                        		<p class="bgImg">
+			                        			<img class="zanOrCaiImg" v-if="img.status == 1" src="assets/img/btn_zan_selected.png" />
+			                        			<img class="zanOrCaiImg" v-if="img.status == 2" src="assets/img/btn_cai_selected.png" />
+			                        		</p>		                        		
+			                        	</span>	
+			                        </div>
+			                        <div class="flex_container_img" v-if="f.appraiseSteps.length > 1" style="margin: 0.4rem 0.5rem 0 3.5rem;width: initial;flex-wrap: wrap;">		
+			                        	<span v-for="(index,img) in f.appraiseSteps" class="commentSmallImg" style="background:url({{img.pictureUrl}}) no-repeat;background-size: 100% 100%;" v-if="img.pictureUrl && index<9">
+			                        		<p class="bgImg">
+			                        			<img class="zanOrCaiImg" v-if="img.status == 1" src="assets/img/btn_zan_selected.png" />
+			                        			<img class="zanOrCaiImg" v-if="img.status == 2" src="assets/img/btn_cai_selected.png" />
+			                        		</p>		                        		
+			                        	</span>
+			                        	<span v-for="(index,img) in f.appraiseSteps" class="commentSmallImg" style="background:url(assets/img/restowechat.png) no-repeat;background-size: 100% 100%;" v-if="!img.pictureUrl && index<9">
+			                        		<p class="bgImg">
+			                        			<img class="zanOrCaiImg" v-if="img.status == 1" src="assets/img/btn_zan_selected.png" />
+			                        			<img class="zanOrCaiImg" v-if="img.status == 2" src="assets/img/btn_cai_selected.png" />
+			                        		</p>		                        		
+			                        	</span>				                        	
+			                        </div>
+			                        <div class="commentHeader">
+			                            <span class="commentLeft" @click="showLike(f,f.isParse)">
+			                            	<img v-if="f.isParse" id="{{f.id}}src" src="assets/img/btn_dianzan.png" style="top: 1px;left: -22px;" alt="未点赞" />
+			                            	<img v-if="!f.isParse" id="{{f.id}}src" src="assets/img/btn_dianzan_select.png" style="top: 1px;left: -22px;" alt="已点赞" />
+			                            	<span v-if="f.isParse" class="{{f.id}}">点赞</span>
+				                        	<span v-if="!f.isParse" class="{{f.id}}">取消</span>
+			                            </span>
+			                            <span class="commentRight" @click="showComment(f)">
+			                            	<img src="assets/img/btn_pinglun.png" style="top: 1px;left: -22px;" alt="评论" />评论
+			                            </span>
+			                        </div>
+			                        <div class="mainContent" v-if="f.appraisePraises.length || f.appraiseComments.length">
+	                                    <div class="likesContent" v-if="f.appraisePraises.length != 0">
+	                                        <img class="likesContent_like" src="assets/img/likes.png" alt="点赞" />
+	                                        <div class="likesHead">
+	                                            <span v-for="p in f.appraisePraises"><img class="avat" :src="p.headPhoto"></span>
+	                                        </div>
+	                                    </div>
+	                                    <div class="commentContent" v-if="f.appraiseComments.length != 0">
+	                                        <img class="likesContent_comment" src="assets/img/comment.png" alt="评论" />
+	                                        <div class="specificComment" v-for="c in f.appraiseComments" >
+					                            <span v-if="$index < 3"  @click="showCommentReply(f,c)">
+					                                <span class="commentName" v-if="c.pid.length == 0" >{{c.nickName}}</span>
+					                                <span class="commentName" v-if="c.pid.length > 0" >{{c.nickName}}回复了{{c.replyName}}</span>
+					                                <span class="commentWord">: {{c.content}}</span>
+					                            </span>
+	                                        </div>
+	                                        <span style="display: none" id="{{f.id}}span">
+					                            <div class="specificComment" v-for="c in f.appraiseComments" >
+					                                <span v-if="$index >= 3" @click="showCommentReply(f,c)" >
+					                                    <span class="commentName" v-if="c.pid.length == 0" >{{c.nickName}}</span>
+					                                    <span class="commentName" v-if="c.pid.length > 0" >{{c.nickName}}回复了{{c.replyName}}</span>
+					                                    <span class="commentWord">: {{c.content}}</span>
+					                                </span>
+					                            </div>
+			                        		</span>
+	                                        <span id="{{f.id}}info" class="commentName specificComment" v-if="f.appraiseComments.length > 3" @click="displayAllComment(f)">
+					                            查看全部{{f.appraiseComments.length}}条回复
+					                        </span>
+	                                    </div>
+	                                </div>
+			                    </div>
+	                    	</li>	                    	
+	                    </ul>
+	                    
+	                    <!--评论为空时-->
+	                    <div class="emptyComment" v-if="hasAppraise">
+	                        <img src="assets/img/noComment.png" alt="评论为空" />
+	                        <p style="padding: 10px 0px;">暂无数据,快来评论吧~</p>
+	                    </div>
+	                    <div class="weui_cell" v-if="isLoad" style="padding: 0px 15px;">
+	                        <p>
+	                        	<img class="" src="assets/img/loadding.gif" alt="加载中" style="width:1.1rem;vertical-align: middle;" />
+	                        	<span>正在加载中...</span>
+	                        </p>
+	                    </div>
+	                    <div class="weui_cell" v-if="isOver && !hasAppraise">
+	                        <p>
+	                        	<img class="" src="assets/img/gou.png" alt="加载中" style="width:1.1rem;vertical-align: middle;" />
+	                        	<span>已经全部加载完成</span>
+	                        </p>
+	                    </div>
+	                </div>
+	            </div>   
+			</div>			
+		</div>					
+		<iframe-dialog-comment :show.sync="iframeDialogComment.show" :appraise.sync="iframeDialogComment.appraise"
+           :customer.sync="iframeDialogComment.customer" :comment.sync="iframeDialogComment.comment"></iframe-dialog-comment>
+        </template>
+        <template id="data-temp">
+        	<div class="full-height" style="background: #eee;">
+        		<div>
+        			<div class="expression_tab">
+        				<p class="header_title" v-if="!scoreLevel">本次消费满意度</p>
+        				<p class="header_title" v-if="scoreLevel == 5" style="color: #ff8932;">超赞</p> 
+        				<p class="header_title" v-if="scoreLevel == 4">良好</p>
+        				<p class="header_title" v-if="scoreLevel == 3">一般</p> 
+        				<p class="header_title" v-if="scoreLevel == 2">较差</p>
+        				<p class="header_title" v-if="scoreLevel == 1">极差</p>
+        				<div class="flex-container-score">
+    						<img class="expression_img" v-for="f in scoreDetaile.expressionList" :src="f.state ? f.brightSrc : f.expressionSrc" @click="getScore(f)"/>
+    					</div>
+    					<!--<p class="appraise-text" style="color: #000;" v-if="!scoreLevel">请选择满意度</p>
+    					<p class="appraise-text" v-if="scoreLevel == 5">超赞!</p>
+    					<p class="appraise-text" style="color: #000;" v-if="scoreLevel == 4">待改进!</p>
+    					<p class="appraise-text" style="color: #000;" v-if="scoreLevel == 3">一般</p>
+    					<p class="appraise-text" style="color: #000;" v-if="scoreLevel == 2">较差</p>
+    					<p class="appraise-text" style="color: #000;" v-if="scoreLevel == 1">极差</p>-->
+    					<div class="flex-container-tab" v-if="scoreLevel == 5">
+    						<span class="flex_item_label" :class="{good:scoreLevel == 5,checkedGood:!a.statue}" v-for="a in goodLabelList" @click="choiceLabel(a)">{{a.title}}</span>
+    					</div>
+    					<div class="flex-container-tab" v-if="scoreLevel < 5">
+    						<span class="flex_item_label" :class="{bad:scoreLevel < 5,checkedBad:!a.statue}" v-for="a in badLabelList" @click="choiceLabel(a)">{{a.title}}</span>
+    					</div>
+        			</div>	
+
+	        		<div class="appraise_main">	        			
+	        			<div class="expression_tab">
+	        				<!--评论打分-->
+	        				<p class="header_title">店铺评分</p>
+	        				<div class="appraise_score" v-for="tab in tabList">
+	        					<p class="tab_text">{{tab.name}}</p>
+	        					<div class="expression_content">
+	        						<div class="flex-container">
+		        						<img class="expression_img" v-for="f in tab.expressionList" :src="f.state ? f.brightSrc : f.expressionSrc" @click="changeExpression(f,tab)"/>
+		        					</div>
+	        					</div> 
+	        					<div class="expression_content" style="margin-left: 21%;padding-top: 6px;">
+		        					<div class="flex-container">
+		        						<span v-for="k in tab.textList">{{k.text}}</span>
+		        					</div>
+	        					</div>
+	        				</div>
+	        				<div class="scoreDetails" style="text-align: right;"><span @click="showArticleDetails">出品打分详情</span></div>
+	        				<!--评论内容-->
+	        				<div class="weui_cell appraise">
+				                <div class="weui_cell_primary" style="padding: 5px;">
+				                    <textarea class="weui_textarea" placeholder="你说，我们在倾听..." rows="3" maxlength="100" style="background: #eee;" v-model="appraise"></textarea>
+				                    <div class="weui_textarea_counter"><span>{{appraise.length}}</span>/{{remainWord}}</div>
+				                </div>
+				            </div>				            
+	        			</div>       			
+	        		</div>
+	        		<div style="position: relative;top:2vw;padding: 4vw 0;">
+	        			<button class="weui_btn receive" @click="receiveReward">提交</button>
+	        		</div>	        		
+        		</div>
+	        </div>
+	        <article-details :show.sync="articleDetails.show" :articles.sync="articleDetails.articles"></article-details>
+	        <comment-success :show.sync="commentSuccess.show"></comment-success>
+	        <customer-register :show.sync="customerRegister.show" :customer="customerRegister.customer"></customer-register>
+        </template>
+        <template id="my-temp">
+        	<div class="full-height" id="scrollList" style="display: none;">
+        		<div>
+        		<div class="weui_cell" style="padding-left: 20px;">
+		            <div class="weui_cell_head">
+		                <img class="customerPhoto" :src="customer.headPhoto" />
+		            </div>
+		            <div class="weui_media_bd">
+	                    <div class="weui_media_title" style="vertical-align: middle;">
+	                        <span class="weui_customerName">{{customer.nickname}}</span>
+	                        <img class="customerSexSmall" src="assets/img/man.png" v-if="customer.sex == 1" />
+	                        <img class="customerSexSmall" src="assets/img/woman.png" v-if="customer.sex == 2" />
+	                    </div>
+	                    <p class="weui_media_desc" v-if="customer.isBindPhone">手机号:{{customer.telephone}}</p>
+	                    <p class="weui_media_desc" v-if="!customer.isBindPhone">手机号:暂无</p>
+	                </div>
+		        </div>
+		        <!--我的评论-->
+		        <div class="weui_cell" style="border-top: 1px solid #e7e7e7;border-bottom: 1px solid #e7e7e7;">
+		            <div class="weui_flex_item">
+		            	<span class="number">{{appraiseCount.appraiseCount}}</span>
+		            	<span class="text">评论</span>
+		            </div>
+					<div class="weui_flex_item">
+		            	<span class="number">{{appraiseCount.commentCount}}</span>
+		            	<span class="text">回复</span>
+		            </div>
+		            <div class="weui_flex_item">
+		            	<span class="number">{{appraiseCount.praiseCount}}</span>
+		            	<span class="text">点赞</span>
+		            </div>
+		        </div>
+		        <div style="position: relative;padding: 0px 10px;">
+		        	<ul>
+	                	<li v-for="f in customerAppraiseList" style="border-bottom: 1px solid #e7e7e7;" @click="showCommentDetails(f)">
+	                		<div class="reviewListInfoTitle" style="position: relative;padding-top: 0.8rem;">
+	                            <p class="appraiseNum">{{f.allGrade}}分</p>
+	                            <p class="appraiseDate">{{new Date(f.createTime.time).format("yy-MM-dd")}}</p>
+		                        <p class="appraiseText">{{f.content}}</p>
+		                        <p class="flex-tab" style="margin-left: 5rem;">
+		                        	<span class="flex_item_table" v-for="(index,a) in f.appraiseGrades" >
+		                        		<i v-for="j in textList" v-if="j.grade == a.grade && index == 0">服务{{j.word}}</i>	
+		                        		<i v-for="j in textList" v-if="j.grade == a.grade && index == 1">环境{{j.word}}</i>
+		                        		<i v-for="j in textList" v-if="j.grade == a.grade && index == 2">性价比{{j.word}}</i>
+		                        		<i v-for="j in textList" v-if="j.grade == a.grade && index == 3">氛围{{j.word}}</i>
+		                        		<i v-for="j in textList" v-if="j.grade == a.grade && index == 4">出品{{j.word}}</i>
+		                        	</span>
+		                        </p>
+		                        <div class="flex_container_img" v-if="f.appraiseSteps.length == 1" style="margin: 0.6rem 0.5rem 0 5rem;width: initial;flex-wrap: wrap;">	
+		                        	<span v-for="img in f.appraiseSteps" class="commentBigImg" style="background:url({{img.pictureUrl}}) no-repeat;background-size: 100% 100%;" v-if="img.pictureUrl">
+		                        		<p class="bgImg">
+		                        			<img class="zanOrCaiImg" v-if="img.status == 1" src="assets/img/btn_zan_selected.png" />
+		                        			<img class="zanOrCaiImg" v-if="img.status == 2" src="assets/img/btn_cai_selected.png" />
+		                        		</p>		                        		
+		                        	</span>
+		                        	<span v-for="img in f.appraiseSteps" class="commentBigImg" style="background:url(assets/img/restowechat.png) no-repeat;background-size: 100% 100%;" v-if="!img.pictureUrl">
+		                        		<p class="bgImg">
+		                        			<img class="zanOrCaiImg" v-if="img.status == 1" src="assets/img/btn_zan_selected.png" />
+		                        			<img class="zanOrCaiImg" v-if="img.status == 2" src="assets/img/btn_cai_selected.png" />
+		                        		</p>		                        		
+		                        	</span>		                        	
+		                        </div>
+		                        <div class="flex_container_img" v-if="f.appraiseSteps.length > 1" style="margin: 0.6rem 0.5rem 0 5rem;width: initial;flex-wrap: wrap;">
+		                        	<span v-for="(index,img) in f.appraiseSteps" class="commentSmallImg" style="background:url({{img.pictureUrl}}) no-repeat;background-size: 100% 100%;" v-if="img.pictureUrl && index<9">
+		                        		<p class="bgImg">
+		                        			<img class="zanOrCaiImg" v-if="img.status == 1" src="assets/img/btn_zan_selected.png" />
+		                        			<img class="zanOrCaiImg" v-if="img.status == 2" src="assets/img/btn_cai_selected.png" />
+		                        		</p>		                        		
+		                        	</span>
+		                        	<span v-for="(index,img) in f.appraiseSteps" class="commentSmallImg" style="background:url(assets/img/restowechat.png) no-repeat;background-size: 100% 100%;" v-if="!img.pictureUrl && index<9">
+		                        		<p class="bgImg">
+		                        			<img class="zanOrCaiImg" v-if="img.status == 1" src="assets/img/btn_zan_selected.png" />
+		                        			<img class="zanOrCaiImg" v-if="img.status == 2" src="assets/img/btn_cai_selected.png" />
+		                        		</p>		                        		
+		                        	</span>		                        	
+		                        </div>		                        
+		                    </div>
+		                    <div class="commentHeader">
+	                            <span class="commentLeft"><img src="assets/img/btn_dianzan.png" alt="点赞" style="left: -22px;" />{{f.appraisePraises.length}}</span>
+	                            <span class="commentRight"><img src="assets/img/btn_pinglun.png" alt="评论" style="left: -22px;" />{{f.appraiseComments.length}}</span>
+	                        </div>
+	                	</li>	
+	                </ul>	                
+                    <!--当用户评论为空时-->
+                    <div class="emptyComment" style="top: 5rem;;" v-if="appraiseCount.appraiseCount == 0">
+                        <img src="assets/img/noComment.png" alt="评论为空" />
+                        <p style="margin-top: 10px;">暂无数据,快来评论吧~</p>
+                    </div>
+                    <div class="weui_cell" v-if="isLoad" style="padding: 0px 15px;">
+                        <p>
+                        	<img class="" src="assets/img/loadding.gif" alt="加载中" style="width:1.1rem;vertical-align: middle;" />
+                        	<span>正在加载中...</span>
+                        </p>
+                    </div>
+                    <div class="weui_cell" v-if="isOver && appraiseCount.appraiseCount != 0">
+                        <p>
+                        	<img class="" src="assets/img/gou.png" alt="加载中" style="width:1.1rem;vertical-align: middle;" />
+                        	<span>已经全部加载完成</span>
+                        </p>
+                    </div>
+		        </div>
+		        </div>
+    		</div>   		
+        </template>
+        <weui-loading :show.sync="loadShow"></weui-loading>
+        
+        <script type="text/javascript">
+        	var baseUrl = getParam("baseUrl");
+	        //baseUrl = "http://test.tt.com:8081";
+            //baseUrl = "http://192.168.1.118:8081";
+
+			function iScrollClick() {
+		        if (/iPhone|iPad|iPod|Macintosh/i.test(navigator.userAgent)) return false;
+		        if (/Chrome/i.test(navigator.userAgent)) return (/Android/i.test(navigator.userAgent));
+		        if (/Silk/i.test(navigator.userAgent)) return false;
+		        if (/Android/i.test(navigator.userAgent)) {
+		            var s = navigator.userAgent.substr(navigator.userAgent.indexOf('Android') + 8, 3);
+		            return parseFloat(s[0] + s[3]) < 44 ? false : true
+		        }
+		    }
+        </script>
+        <script src="assets/js/vue.min.js"></script>
+        <script src="assets/js/jquery.min.js"></script>
+		<script src="assets/js/iscroll.js"></script>
+		<script src="//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js"></script>
+		<script src="//cdn.bootcss.com/Swiper/3.4.0/js/swiper.jquery.min.js"></script>
+		<script src="//cdn.bootcss.com/Swiper/3.4.0/js/swiper.min.js"></script>
+		<script src="//api.map.baidu.com/api?v=2.0&ak=PdBo10B2cZMTpp9SAWn2WtZ5QNzEGvvV"></script>
+		<script src="assets/js/components.js"></script>
+		<script src="assets/js/service.js"></script>
+        <script src="assets/js/vue-router.js"></script>        
+        <script src="assets/page/home-page.js"></script>
+		<script src="assets/page/data-page.js"></script>
+		<script src="assets/page/my-page.js"></script>
+		<script src="assets/js/main.js"></script>
+		<script src="assets/js/router.js"></script>	
+		<script type="text/javascript">
+        	
+			document.addEventListener('touchmove', function (e) {
+				e.preventDefault();
+			}, false);
+			
+			$(function () {
+		        FastClick.attach(document.body);
+		    });		
+		    			
+		</script>
+	</body>
+</html>

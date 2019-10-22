@@ -1,0 +1,815 @@
+/*公共样式*/
+html,body {
+	position: relative;
+	height: 100%;
+	font-family: "微软雅黑";
+	padding: initial;
+	overflow: hidden;
+	font-size: 14px;
+}
+p {
+	margin: 0;
+}
+ul li {
+	list-style: none;
+}
+i {
+	font-style: normal;
+}
+a:hover {
+	text-decoration: none;
+}
+img {
+	width: 100%;
+	height: 100%;
+}
+.weui-tab__panel {
+	overflow: initial;
+}
+.weui_btn:after {
+    border: none;
+}
+.weui_cell:before {
+	border: none;
+}
+.weui-navbar {
+	position: relative;
+}
+.weui-navbar__item {
+	padding: 10px 0px;
+}
+.weui-tabbar {
+	position: fixed;
+    background-color: #fff;
+}
+.weui-tabbar__label.active {
+	color: #ff8832;
+}
+.weui-tabbar__icon {
+    display: inline-block;
+    width: 1.6rem;
+    height: 1.6rem;
+}
+.inMiddle {
+	display: table-cell;
+    vertical-align: middle;
+}
+/*弹窗样式*/
+.weui_toast_show.msg-dialog {
+	min-height: 0;
+	left: 0;
+	right: 0;
+	margin: 0 auto;
+	top: 28%;
+	width: 150px;
+	height: 150px;
+	z-index: 1001;
+}
+.weui_mask_transparent {
+	position: fixed;
+	z-index: 299;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+}
+.weui_toast_show {
+	position: fixed;
+	background: rgba(40, 40, 40, 0.75);
+	text-align: center;
+	border-radius: 5px;
+	color: #FFFFFF;
+}
+.msgImg {
+	width: 50px;
+	height: 50px;
+	margin-top: 25px;
+}
+.weui_toast_show.msg-dialog>p {
+	padding: 0px 10px;
+	position: relative;
+	top: 10px;
+}
+/*加载页面*/
+.full-height {
+	position: relative;
+	height: 100%;
+}
+.weui_loading_content {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 26vh;
+    z-index:501;
+    text-align: center;
+}
+.logoImg {
+	width: 8rem;
+	height: 8rem;
+	border-radius: 4rem;
+}
+.footTitle {
+    bottom: 3.7vh;
+    position: fixed;
+    text-align: center;
+    width: 100%;
+    font-size: 0.8rem;
+}
+/*菜品详情*/
+.weui_article_content {
+    position: fixed;
+    width: 88%;
+    height: 86%;
+    left: 6vw;
+    top: 5.5vh;
+    z-index: 501;
+    text-align: center;
+    background: #eeeeee;
+    border-radius: 5px;
+}
+.main_content {
+    position: relative;
+    width: 80vw;
+    height: 65vh;
+    left: 4vw;
+    background-color: #fff;
+    border-radius: 5px;
+}
+.article-family-list {
+    position: relative;
+    overflow: hidden;
+    left: 0;
+    float: left;
+    width: 25%;
+    background-color: #d5d5d5;
+}
+.article-family-ul>li {
+    padding: 10px 5px;
+    text-align: center;
+    color: #666;
+    position: relative;
+}
+.article-list>li {
+    padding: 10px 10px 10px 20px;
+    text-align: left;
+    color: #666;
+    position: relative;
+}
+.article-family-ul>li.active {
+    background-color: #fff;
+    color: #666;
+}
+.article-family-group {
+    padding: 10px;
+    text-align: center;
+    color: #666;
+    position: relative;
+}
+
+.scoreImg {
+	width: 1.5rem;
+	height: 1.5rem;
+	margin-right:10px;
+}
+.commentBtns {
+	float: right;
+	vertical-align: middle;
+	display: inline-block;
+}
+.familyName {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-align: left;
+    vertical-align: middle;
+    display: inline-block;
+    width: 100%;
+}
+.article-list-wapper {
+    position: relative;
+    left: 0;
+    overflow: hidden;
+    float: left;
+    width: 75%;
+}
+.producedArticle {
+    position: relative;
+    height: 8vh;
+    text-align: left;
+    margin-left: 4vw;
+    line-height: 8vh;
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+.container_article {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-justify-content: space-around;
+    justify-content: space-around;
+    width: 100%;
+}
+.articleBtns {
+	height: 13vh;
+	display: table;
+	width: 100%;
+}
+.article_btn {
+    font-size: 1.1rem;
+    padding: 8px 24px;
+    display: inline-block;
+    border-radius: 3px;
+    background-color: #fff;
+    color: #666;
+}
+.flex-container_article {
+	display: -webkit-flex;
+    display: flex;
+    -webkit-justify-content: space-around;
+    justify-content: space-around;
+    width: 80%;
+    margin: 0 10%;
+}
+
+/*首页*/		
+.emptyComment {
+    position: relative;
+/*    top: 5.5rem;*/
+    text-align: center;
+    font-family: "微软雅黑";
+    color: #ccc;
+    font-size: 1.1rem;
+}		
+.emptyComment img {
+	width: 5rem;
+	height: 5rem;
+}					
+.banner {
+    height: 50vw;
+    position: relative;
+    overflow: hidden;
+}
+.markImg {
+	width: 20px;
+	height: 20px;
+	vertical-align: middle;
+}
+.weui_cells_description {
+    background-color: #FFFFFF;
+    overflow: hidden;
+    position: relative;
+    font-size: inherit;
+    border-top: 0.82em solid #E7E7E7;
+    margin-top: inherit;
+    padding: 10px 15px;
+}
+.weui_cell_comment {
+	border-top: 0.82em solid #E7E7E7;
+    line-height: 1.41176471;
+    position: relative;
+    background: #fff;
+}
+.comment {
+    padding: 0 15px;
+}
+.appraise-item {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #eee;
+}
+.reviewListInfo {
+	position: relative;
+}
+.avatar {
+	position: absolute;
+    height: 3rem;
+    width: 3rem;     
+}
+.customerHead {
+	color: #666;
+	font-size: 1rem;
+	margin-left: 3.5rem;
+}
+.flex-tab {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-justify-content: flex-start;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    margin-left: 3.5rem;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    color: #979797;
+}
+.flex_item_tab {
+    padding: 5px 6px;
+    width: 24%;
+    text-align: center;
+    border: 1px solid #979797;
+    border-radius: 5px;
+    margin: 2px 8px 4px 0px;
+    font-size: 0.8rem;
+    white-space: nowrap;
+}
+.flex_container_img {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-justify-content: flex-start;
+    justify-content: flex-start;
+    margin: 0.6rem 0.5rem 0 3.5rem;
+    width: initial;
+    flex-wrap: wrap;
+}
+.commentImg {
+	width: 22vw;
+	height: 22vw;
+    margin: 0vw 3vw 3vw 0vw;
+}
+.commentBigImg {
+	width: 72vw;
+	height: 36vw;
+    margin: 0vw 3vw 3vw 0vw;
+	position: relative;
+}
+.commentBigImg .bgImg {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	height:25px;
+	background: rgba(0,0,0,0.5);
+	text-align: center;
+}
+.commentSmallImg {
+	width: 20vw;
+	height: 20vw;
+    margin: 0vw 3vw 3vw 0vw;
+	position: relative;
+}
+.commentSmallImg .bgImg {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	height:25px;
+	background: rgba(0,0,0,0.5);
+	text-align: center;
+}
+.zanOrCaiImg {
+	width: 20px;
+	height: 20px;
+	vertical-align: middle;
+}
+.mainContent {
+    position: relative;
+    background: #f3f3f3;
+    margin-left: 3.5rem;
+}
+.mainContent:before {
+    content: "";
+    width: 0;
+    height: 0;
+    right: 85%;
+    top: -8px;
+    position: absolute;
+    border-bottom: 8px solid #f3f3f3;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+}
+.mainContent .likesContent {
+    min-height: 2rem;
+    position: relative;
+}
+.mainContent .likesContent_like {
+    height: 14px;
+    width: 14px;
+    position: absolute;
+    top: 0.8rem;
+    left: 0.5rem;
+}
+.likesHead {
+    margin-left: 2rem;
+}
+.mainContent .likesContent .avat {
+    height: 2rem;
+    width: 2rem;
+    margin-top: 0.3rem;
+    margin-left: 0.1rem;
+}
+
+
+/*评价*/
+.header_title {
+	text-align: center;
+	padding-top: 10px;
+	font-size: 1.1rem;
+}
+.flex-container-score {
+	display: -webkit-flex;
+    display: flex;
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+    width: 74vw; 
+    padding: 10px 10vw 10px 10vw;
+}
+.flex-container-tab {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-justify-content: flex-start;
+    justify-content: flex-start;
+    width: 86vw;
+    padding: 3vw 4vw 3vw 4vw;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;  
+}
+.flex_item_label {
+    padding: 5px 6px;
+    width: 13vw;
+    text-align: center;
+    border-radius: 5px;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    margin: 1vw 2vw;
+}
+.flex_item_label.good {
+	color: #ff8932;
+	border: 1px solid #ff8932;
+}
+.flex_item_label.bad {
+	color: #000;
+	border: 1px solid #000;
+}
+.flex_item_label.checkedGood {
+	background-color: #ff8932;
+	color: #fff;
+}
+.flex_item_label.checkedBad {
+	background-color: #000;
+	color: #fff;
+}
+.appraise-text {
+	font-size: 0.8rem;
+	color: #ff8932;
+	text-align: center;
+	margin: 0 4vw;
+	padding: 10px 0;
+	border-bottom: 1px solid #eee;
+}
+.header_img {
+	position: relative;
+	height: 18vh;
+}
+.appraise_main {
+	position: relative;
+	top: 3vw;
+	background: #eee;
+}
+.weui_btn.receive {
+	position: relative;
+    color: #fff;
+    background-color: #ff8832;
+    width: 94vw;   
+    font-size: 1rem;
+    line-height: 2.8;
+}
+.expression_tab {
+	position: relative;
+    width: 94vw;
+    left: 3vw;
+    top: 3vw;
+    background-color: #fff;
+    border-radius: 5px;  
+}
+.weui_cell.appraise {
+    padding: initial;
+    bottom: 9px;
+    width: 88vw;
+    margin: 3vw;
+    background: #eee;
+}
+.appraise_score {
+	padding: 10px 15px 0px 15px;
+}
+.expression_content {
+	display: inline-block;
+	width: 72%;
+	vertical-align: middle;
+}
+.tab_text {
+    vertical-align: middle;
+    display: inline-block;
+    width: 20%;
+}
+.scoreDetails {
+    text-align: right;
+    padding: 5px 0;
+    font-size: 0.8rem;
+    margin-right: 10px;
+    color: #125ef9;
+}
+.flex-container {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+    width: 100%;
+}
+.expression_img {
+	width: 2rem;
+	height: 2rem;
+	vertical-align: middle;
+}
+.noArticleImg {
+	width: 30vw;
+	height: 28vw;
+}
+/*评论成功*/
+.weui_comment_content {
+    position: absolute;
+    z-index: 501;
+    background: #eee;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+}
+.weui_btn.weui_btn_success {
+    position: absolute;
+    bottom: 28px;
+    left: 3vw;
+    color: #fff;
+    background-color: #ff8832;
+    width: 94vw;
+    font-size: 1.1rem;
+    line-height: 2.8;
+}
+.thankJoin {
+	position: relative;
+	top: 3rem;
+	left: 3vw;
+	width: 94vw;
+	height: 38vh;
+	border-radius: 5px;
+	text-align: center;
+	background: #fff;
+	color: #666;
+}
+.thanksImg {
+	width: 15rem;
+    height: 22vh;
+    margin-top: 1.2rem;
+}
+.instructions {
+	position: relative;
+    color: #ff8832;
+    font-size: 0.9rem;
+    top: 4rem;    
+    text-align: center;
+}
+/*我的*/
+.weui_media_bd {
+	text-align: left;
+	position: relative;
+}
+.weui_cell_head {
+	position: relative;
+    margin-right: 15px;
+}
+.customerPhoto {
+	width: 4rem;
+	height: 4rem;
+	display: block;
+	border-radius: 5px;
+}
+.customerSexSmall {
+    width: 1rem;
+    height: 1rem;
+    display: inline-block;
+    vertical-align: top;
+    position: relative;
+    top: 5px;
+}
+.weui_media_desc {
+    color: #999999;
+    font-size: 13px;
+    line-height: 1.2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+.weui_flex_item {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    flex: 1;
+    text-align: center;
+    border-right: 1px solid #E7E7E7;
+}
+.weui_flex_item:last-child {
+	border-right: none;
+}
+.weui_flex_item .text {
+	color: #999;
+	font-size: 12px;
+	display: block;
+}
+.weui_flex_item .number {
+	font-weight: bold;
+	font-size: 1.3rem;
+	color: #666;
+}
+.appraiseNum {
+    float: left;
+    color: #ff8832;
+    font-size: 1.2rem;
+    margin-left: 10px;
+}
+.appraiseText {
+	font-size: 0.9rem;
+	margin-left: 5rem;
+	margin-right: 10px;
+	color: #666;
+}
+.appraiseDate {   
+    position: absolute;
+    top: 35px;
+    left: 5px;
+    font-size: 0.7rem;
+    color: #999;
+}
+.commentHeader {
+    position: relative;
+    padding-left: 5rem;
+    height: 30px;
+    font-size: 1rem;
+    color: #666;
+/*    border-bottom: 1px solid #eee;*/
+}
+.commentHeader img {
+    width: 1.3rem;
+    height: 1.3rem;
+    position: absolute;
+    left: -20px;
+    top: 3px;
+}
+.commentHeader .commentLeft {
+    position: absolute;
+    right: 23%;
+}
+.commentHeader .commentRight {
+    position: absolute;
+    right: 2%;
+}
+.flex_item_table {
+    padding: 5px 6px;
+    width: 24%;
+    text-align: center;
+    border: 1px solid #979797;
+    border-radius: 5px;
+    margin: 2px 8px 4px 0px;
+    font-size: 0.8rem;
+    white-space: nowrap;
+}
+.flex_item_table:nth-child(3n+0) {
+	margin: 2px 0px 4px 0px;
+}
+
+.weui_dialog_comment {
+    position: fixed;
+    z-index: 501;
+    width: 80%;
+    left: 0;
+    right: 0;
+    background-color: #e7e7e7;
+    height: 13rem;
+    top: 12%;
+    margin: auto;
+    text-align: center;
+    border-radius: 10px;
+}
+#contentInput {
+    width: 88%;
+    -webkit-user-select: text;
+    border-radius: 3px 3px 0px 0px;
+    outline: 0;
+    background-color: #fff;
+    -webkit-appearance: none;
+    font-size: 16px;
+    position: relative;
+    top: 0.7rem;
+    padding: 3px;
+    height: 7rem;
+    border: none;
+}
+.remainWord {
+    position: relative;
+    color: #9c9c9c;
+    background-color: #fff;
+    display: block;
+    width: 90%;
+    text-align: right;
+    left: 5%;
+    top: 4px;
+    border-radius: 0px 0px 3px 3px;
+}
+.submitBtn {
+    position: relative;
+    height: 3rem;
+    width: 100%;
+    display: table;
+    border-top: 1px solid #d2d2d2;
+    bottom: -1rem;
+}
+.cancleSendOut {
+    width: 50%;
+    font-size: 1.2rem;
+    border-right: 1px solid #d2d2d2;
+}
+.sendOutAppraise {
+    width: 50%;
+    font-size: 1.2rem;
+    color: #00cc00;
+}
+.commentContent {
+    min-height: 1.4rem;
+    position: relative;
+    padding-bottom: 4px;
+}
+.mainContent .likesContent_comment {
+    height: 14px;
+    width: 14px;
+    position: absolute;
+    left: 0.5rem;
+    top: 0.4rem;
+}
+.specificComment {
+    position: relative;
+    left: 2rem;
+    width: 65vw;
+    top: 0.1rem;
+}
+.commentName {
+    color: #5b5f78;
+}
+.commentWord {
+    word-break: break-all;
+    white-space: pre-wrap;
+}
+
+/*注册*/
+
+.bg-pic {
+	background: url(../img/bg_pic.png) no-repeat;
+    background-size: 100% 100%;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    z-index: 1000;
+}
+.reward-words {
+	position: relative;
+	top: 38vh;
+	text-align: center;
+	color: #fff;
+}
+.reward-details {
+    padding: 0 10px;
+	background: #db5357;
+}
+.weui-cell.item {
+    margin: 0 25vw;
+    top: 40vh;
+    font-size: 0.8rem;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: -3px 4px 2px #94480e;
+}
+.weui-cell.weui-cell_vcode {
+	margin: 0 25vw;
+    font-size: 0.8rem;
+    top: 42vh;
+    padding-left: 10px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: -3px 4px 2px #94480e;
+}
+.weui-vcode-btn.codeBtn {
+    background: #ff8932;
+    color: #fff;
+    font-size: 0.8rem;
+    line-height: 39px;
+    height: 39px;
+    width: 78px;
+    border-radius: 0 5px 5px 0;
+}
+.weui-vcode-btn.disabled {
+	background: #afadad;
+	color: #fff;
+}
+.weui-btn.weui-btn_primary {
+	font-size: 0.8rem;
+    background: #ff8932;
+    line-height: 40px;
+    margin: 0 25vw;
+    width: 50vw;
+    top: 44vh;
+    box-shadow: -3px 4px 2px #94480e;
+}
